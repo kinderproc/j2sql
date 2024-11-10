@@ -1,2 +1,2 @@
 # J2SQL
-J2SQL - это утилита, работающая в командной строке и предназначенная, для генерации SQL скриптов из JSON.
+J2SQL is a command line utility designed to generate SQL scripts from JSON.
