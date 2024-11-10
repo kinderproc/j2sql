@@ -20,6 +20,15 @@ repositories {
 dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
+	// lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+
+	// logging
+	implementation 'org.slf4j:slf4j-api'
+
 }
 
 tasks.named('test') {
