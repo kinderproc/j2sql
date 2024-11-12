@@ -1,0 +1,54 @@
+= Brief description of the functionality
+
+"j2sql" is a service for generating sql-scripts based on json. The input is json, with a data structure, and at the
+output, the user receives sql-script. For now it generates only PostgreSQL scripts.
+
+== The incoming JSON must follow the next rules:
+
+
+=== VALIDATIONS:
+
+    - names of tables, columns, keys, indexes and dictionaries and etc. are unique
+    - type of column is one of the PostgreSQL data types
+    - primary key is only one for each table
+    - foreign keys and indexes references an existing tables and сolumns
+    - the table must contain a primary key
+
+=== STRUCTURE:
+
+----
+{
+	"tables": [
+		{
+			"schema": <string> schema name,
+			"name": <string> table name,
+			"columns": [
+				{
+					"name": <string> column name,
+					"type": <string> string of PostgreSQL type,
+					"not_null": <boolean>,
+					"primary_key": <boolean>
+				},
+				...
+			]
+		}
+	],
+	"foreign_keys": [
+		{
+			"table": <string> name of table with key,
+			"name": <string> key name,
+			"column": <string> name of column with key,
+			"parentTable": <string> name of parent table,
+			"parentColumn": <string> name of parent column
+		},
+		...
+	],
+	"indexes": [
+		{
+			"name": <string> index name,
+            "parentTable": <string> name of parent table,
+            "parentColumn": <string> name of parent column
+		}
+	]
+}
+----
