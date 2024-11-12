@@ -1,13 +1,23 @@
 package com.algon.j2sql;
 
-import com.algon.j2sql.service.FileServiceImpl;
 import com.algon.j2sql.service.RunnerService;
-import com.algon.j2sql.service.SqlGeneratorServiceImpl;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-public class J2sqlApplication {
+@SpringBootApplication
+@RequiredArgsConstructor
+public class J2sqlApplication implements CommandLineRunner {
+
+	private final RunnerService runnerService;
 
 	public static void main(String[] args) {
-		new RunnerService(new SqlGeneratorServiceImpl(), new FileServiceImpl()).run(args);
+		SpringApplication.run(J2sqlApplication.class, args);
 	}
 
+	@Override
+	public void run(String... args) throws Exception {
+		runnerService.run(args);
+	}
 }

@@ -2,11 +2,13 @@ package com.algon.j2sql.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.nio.file.Path;
 
 @Slf4j
 @RequiredArgsConstructor
+@Service
 public class RunnerService {
 
     private final SqlGeneratorServiceImpl sqlGeneratorServiceImpl;

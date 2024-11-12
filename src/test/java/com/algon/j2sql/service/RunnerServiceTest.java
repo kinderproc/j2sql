@@ -1,8 +1,5 @@
-package com.algon.j2sql;
+package com.algon.j2sql.service;
 
-import com.algon.j2sql.service.FileServiceImpl;
-import com.algon.j2sql.service.RunnerService;
-import com.algon.j2sql.service.SqlGeneratorServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -30,8 +27,7 @@ public class RunnerServiceTest {
 
     @Test
     public void when_NoArgs_then_Exception() {
-        String[] arr = new String[0];
-        assertThrows(RuntimeException.class, () -> runnerService.run(arr));
+        assertThrows(RuntimeException.class, () -> runnerService.run(new String[0]));
         verify(sqlGeneratorService, never()).generate(any(String.class));
     }
 
