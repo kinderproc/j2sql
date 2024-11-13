@@ -1,5 +1,7 @@
 package com.algon.j2sql.service;
 
+import com.algon.j2sql.validation.JsonValidatorService;
+import com.algon.j2sql.validation.ValidationInfo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,6 +21,8 @@ import static org.mockito.Mockito.when;
 public class RunnerServiceTest {
 
     @Mock
+    JsonValidatorService jsonValidatorService;
+    @Mock
     SqlGeneratorServiceImpl sqlGeneratorService;
     @Mock
     FileServiceImpl fileService;
@@ -26,40 +30,45 @@ public class RunnerServiceTest {
     RunnerService runnerService;
 
     @Test
-    public void when_NoArgs_then_Exception() {
+    public void when_noArgs_then_exceptionAndMethodsNotCalled() {
         assertThrows(RuntimeException.class, () -> runnerService.run(new String[0]));
-        verify(sqlGeneratorService, never()).generate(any(String.class));
+        verify(fileService, never()).getFileAsString(any());
+        verify(fileService, never()).writeStringToFile(any(), any());
+        verify(jsonValidatorService, never()).validate(any());
+        verify(sqlGeneratorService, never()).generate(any());
     }
 
     @Test
-    public void when_Success_then_GenerateAndWriteCalled() {
+    public void when_success_then_generateAndWriteCalled() {
         // given
         var input = "dummy input";
         var output = "dummy output";
-        when(fileService.getFileAsString(any(Path.class))).thenReturn(input);
-        when(sqlGeneratorService.generate(input)).thenReturn(output);
+        when(fileService.getFileAsString(any())).thenReturn(input);
+        when(jsonValidatorService.validate(any())).thenReturn(ValidationInfo.builder().build());
+        when(sqlGeneratorService.generate(any())).thenReturn(output);
 
         // when
         runnerService.run(new String[] {"", ""});
 
         // then
-        verify(sqlGeneratorService).generate(any(String.class));
-        verify(fileService).writeStringToFile(eq(output), any(Path.class));
+        verify(sqlGeneratorService).generate(any());
+        verify(fileService).writeStringToFile(eq(output), any());
     }
 
     @Test
-    public void when_DestinationPathArgumentAbsent_then_DestinationPathSameAsSourcePath() {
+    public void when_destinationPathArgumentAbsent_then_destinationPathSameAsSourcePath() {
         // given
         var input = "dummy input";
         var output = "dummy output";
-        when(fileService.getFileAsString(any(Path.class))).thenReturn(input);
-        when(sqlGeneratorService.generate(input)).thenReturn(output);
+        when(fileService.getFileAsString(any())).thenReturn(input);
+        when(jsonValidatorService.validate(any())).thenReturn(ValidationInfo.builder().build());
+        when(sqlGeneratorService.generate(any())).thenReturn(output);
 
         // when
         runnerService.run(new String[] {"C:\\deep\\inside\\data.json"});
 
         // then
-        verify(sqlGeneratorService).generate(any(String.class));
+        verify(sqlGeneratorService).generate(any());
         verify(fileService).writeStringToFile(eq(output), eq(Path.of("C:\\deep\\inside\\data.sql")));
     }
 

@@ -1,0 +1,147 @@
+{
+  "name": "books",
+  "tables": [
+    {
+      "schema": "accounting",
+      "columns": [
+        {
+          "name": "id",
+          "type": "UUID",
+          "required": true,
+          "primary": true
+        },
+        {
+          "type": "UUID",
+          "required": true,
+          "primary": false
+        },
+        {
+          "name": "quantity",
+          "type": "INTEGER",
+          "required": true,
+          "primary": false
+        },
+        {
+          "name": "amount",
+          "type": "INTEGER",
+          "required": true,
+          "primary": false
+        }
+      ]
+    },
+    {
+      "schema": "accounting",
+      "name": "customer",
+      "columns": [
+        {
+          "name": "id",
+          "type": "DOUBLE",
+          "required": true,
+          "primary": true
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR",
+          "required": true,
+          "primary": false
+        },
+        {
+          "name": "inn",
+          "type": "VARCHAR",
+          "required": true,
+          "primary": false
+        },
+        {
+          "name": "address",
+          "type": "VARCHAR",
+          "required": true,
+          "primary": false
+        }
+      ]
+    },
+    {
+      "schema": "accounting",
+      "name": "customer",
+      "columns": [
+        {
+          "name": "id",
+          "type": "UUID",
+          "required": true,
+          "primary": true
+        }
+      ]
+    },
+    {
+      "name": "goods",
+      "columns": [
+        {
+          "name": "id",
+          "type": "UUID",
+          "required": true,
+          "primary": true
+        }
+      ]
+    },
+    {
+      "name": "goods",
+      "columns": [
+        {
+          "name": "id",
+          "type": "UUID",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "goods",
+      "columns": [
+        {
+          "name": "id",
+          "type": "UUID",
+          "required": true,
+          "primary": true
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR",
+          "required": true,
+          "primary": true
+        },
+        {
+          "name": "price",
+          "type": "NUMERIC",
+          "required": true,
+          "primary": false
+        }
+      ]
+    }
+  ],
+  "foreignKeys": [
+    {
+      "table": "address",
+      "name": "fk_order_customer_id",
+      "column": "customer_id",
+      "parentTable": "customer",
+      "parentColumn": "id"
+    },
+    {
+      "table": "order",
+      "name": "fk_order_customer_id",
+      "column": "person_id",
+      "parentTable": "person",
+      "parentColumn": "id"
+    }
+  ],
+  "indexes": [
+    {
+      "name": "idx_order_customer_id",
+      "parentTable": "order",
+      "parentColumn": "customer_id"
+    },
+    {
+      "name": "idx_order_customer_id",
+      "parentTable": "shipment",
+      "parentColumn": "shipment_id"
+    }
+  ]
+}

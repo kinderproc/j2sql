@@ -1,7 +1,9 @@
 package com.algon.j2sql.service;
 
+import com.algon.j2sql.validation.JsonValidatorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.Path;
@@ -11,9 +13,11 @@ import java.nio.file.Path;
 @Service
 public class RunnerService {
 
-    private final SqlGeneratorServiceImpl sqlGeneratorServiceImpl;
-
     private final FileService fileService;
+
+    private final JsonValidatorService jsonValidatorService;
+
+    private final SqlGeneratorService sqlGeneratorService;
 
     public void run(String[] args) {
         if (args.length == 0) {
@@ -24,7 +28,11 @@ public class RunnerService {
         var sourcePath = Path.of(args[0]);
         var source = fileService.getFileAsString(sourcePath);
         var destinationPath = Path.of(getDestinationPathString(args, sourcePath));
-        var output = sqlGeneratorServiceImpl.generate(source);
+        var validationInfo = jsonValidatorService.validate(source);
+        if (!Strings.isEmpty(validationInfo.getErrors())) {
+            throw new RuntimeException("Input json validation. Schema has errors. Errors: " + validationInfo.getErrors());
+        }
+        var output = sqlGeneratorService.generate(validationInfo.getDatabase());
         fileService.writeStringToFile(output, destinationPath);
     }
 

@@ -1,0 +1,81 @@
+{
+  "name": "books",
+  "tables": [
+    {
+      "schema": "accounting",
+      "name": "order",
+      "columns": [
+        {
+          "name": "id",
+          "type": "UUID",
+          "required": true,
+          "primary": true
+        },
+        {
+          "name": "customer_id",
+          "type": "UUID",
+          "required": true,
+          "primary": false
+        },
+        {
+          "name": "quantity",
+          "type": "INTEGER",
+          "required": true,
+          "primary": false
+        },
+        {
+          "name": "amount",
+          "type": "INTEGER",
+          "required": true,
+          "primary": false
+        }
+      ]
+    },
+    {
+      "schema": "accounting",
+      "name": "customer",
+      "columns": [
+        {
+          "name": "id",
+          "type": "UUID",
+          "required": true,
+          "primary": true
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR",
+          "required": true,
+          "primary": false
+        },
+        {
+          "name": "inn",
+          "type": "VARCHAR",
+          "required": true,
+          "primary": false
+        },
+        {
+          "name": "address",
+          "type": "VARCHAR",
+          "required": true,
+          "primary": false
+        }
+      ]
+    }
+  ],
+  "foreignKeys": [
+    {
+      "table": "order",
+      "name": "fk_order_customer_id",
+      "column": "customer_id",
+      "parentTable": "customer",
+      "parentColumn": "id"
+    }
+  ],
+  "indexes": [
+    {
+      "name": "idx_order_customer_id",
+      "parentTable": "order",
+      "parentColumn": "customer_id"
+    }
+  ]
+}
